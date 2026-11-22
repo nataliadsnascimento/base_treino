@@ -22,18 +22,18 @@ class Services:
     def list(self):
         return self.repository.find_all()
 
-    def get(self, task_id):
-        livro = self.repository.find_by_id(livro_id)
+    def get(self, livro_id):
+        item = self.repository.find_by_id(livro_id)
 
-        if livro is None:
+        if item is None:
             raise ValueError("Livro não encontrado!")
 
-        return livro
+        return item
     
     def update(self, livro_id, titulo, autor=None):
-        livro = self.repository.find_by_id(livro_id)
+        item = self.repository.find_by_id(livro_id)
 
-        if livro is None:
+        if item is None:
             raise ValueError("Livro não encontrado!")
 
         if not titulo or not titulo.strip():
@@ -42,14 +42,15 @@ class Services:
         livro.titulo = titulo.strip()
         livro.autor = autor.strip() if autor and autor.strip() else None
 
-        self.repository.update(livro)
+        self.repository.update(item)
 
-        return livro
+        return item
     
     def delete(self, livro_id):
-        livro = self.repository.find_by_id(livro_id)
+        item = self.repository.find_by_id(livro_id)
 
-        if livro is None:
+        if item is None:
             raise ValueError("Livro não encontrado!")
 
         self.repository.delete(livro_id)
+        
