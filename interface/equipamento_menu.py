@@ -9,6 +9,7 @@ class EquipamentoMenu:
             print("\n===== MENU DE EQUIPAMENTOS =====")
             print("1 - Cadastrar equipamento")
             print("2 - Listar equipamentos")
+            print("3 - Buscar equipamento por ID")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -18,6 +19,9 @@ class EquipamentoMenu:
 
             elif opcao == "2":
                 self.list()
+
+            elif opcao == "3":
+                self.get()
 
             elif opcao == "0":
                 print("Encerrando menu...")
@@ -67,3 +71,29 @@ class EquipamentoMenu:
             print(f"Patrimônio: {equipamento.patrimonio}")
             print(f"Status: {status}")
             print("-" * 35)
+
+    def get(self):
+
+        print("\n===== BUSCA DE EQUIPAMENTO =====")
+
+        try:
+            equipamento_id = int(input("Informe o ID: "))
+
+        except ValueError:
+            print("Erro: Informe um ID válido.")
+            return
+
+        try:
+            equipamento = self.services.get(equipamento_id)
+
+            status = "Vendido" if equipamento.vendido else "Disponível"
+
+            print(f"ID: {equipamento.id}")
+            print(f"Nome: {equipamento.nome}")
+            print(f"Descrição: {equipamento.descricao}")
+            print(f"Patrimônio: {equipamento.patrimonio}")
+            print(f"Status: {status}")
+            print("-" * 35)
+
+        except ValueError as erro:
+            print(f"Erro: {erro}")
