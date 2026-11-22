@@ -28,3 +28,14 @@ class EquipamentoService:
     def list(self):
         return self.repository.list()
     
+    def get(self, equipamento_id):
+
+        if equipamento_id <= 0:
+            raise ValueError("O ID deve ser maior que zero.")
+
+        equipamento = self.repository.get(equipamento_id)
+
+        if equipamento is None:
+            raise ValueError("Equipamento não encontrado.")
+
+        return equipamento
