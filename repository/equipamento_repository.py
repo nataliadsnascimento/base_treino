@@ -60,3 +60,33 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+
+    def get(self, equipamento_id):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                SELECT id, nome, descricao, patrimonio, vendido
+                FROM equipamentos
+                WHERE id = ?
+            """, (equipamento_id,))
+
+            registro = cursor.fetchone()
+
+            if registro is None:
+                return None
+
+            equipamento = Equipamento(
+                id=registro[0],
+                nome=registro[1],
+                descricao=registro[2],
+                patrimonio=registro[3],
+                vendido=bool(registro[4])
+            )
+
+            return equipamento
+
+        finally:
+            connection.close()
