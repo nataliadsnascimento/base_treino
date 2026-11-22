@@ -1,11 +1,23 @@
 from database.connection import get_connection
 
+
 def install():
     connection = get_connection()
-
     try:
-        # Criar tabela no banco de dados
-        connection.execute("""
+        cursor = connection.cursor()
+
+        # Tabela equipamentos (entidade do colega)
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS equipamentos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome TEXT NOT NULL,
+                descricao TEXT,
+                disponivel INTEGER NOT NULL DEFAULT 1
+            )
+        """)
+
+        # Tabela filmes (sua entidade)
+        cursor.execute("""
             CREATE TABLE IF NOT EXISTS filmes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 titulo TEXT NOT NULL,
@@ -14,14 +26,12 @@ def install():
             )
         """)
 
-        # Inserir dados iniciais (OBRIGATÓRIO!!!!)
-        cursor = connection.cursor()
         cursor.execute("SELECT COUNT(*) FROM filmes")
         if cursor.fetchone()[0] == 0:
             filmes_iniciais = [
-                ("Interestelar", "Ficção científica sobre viagens espaciais e buracos de minhoca.", 1),
-                ("O Poderoso Chefão", "Clássico do cinema sobre a família mafiosa Corleone.", 0),
-                ("A Viagem de Chihiro", "Animação do Studio Ghibli sobre uma garota em um mundo espiritual.", 1),
+                ("Interestelar", "Ficção científica sobre viagens espaciais e relatividade.", 0),
+                ("O Poderoso Chefão", "Clássico drama sobre a família mafiosa Corleone.", 0),
+                ("A Viagem de Chihiro", "Animação do Studio Ghibli sobre um mundo espiritual.", 0),
             ]
             cursor.executemany(
                 "INSERT INTO filmes (titulo, descricao, assistido) VALUES (?, ?, ?)",
@@ -29,11 +39,10 @@ def install():
             )
 
         connection.commit()
-
+        print("Banco de dados instalado com sucesso!")
     finally:
         connection.close()
 
 
 if __name__ == "__main__":
     install()
-    print("Banco de dados instalado com sucesso.")
