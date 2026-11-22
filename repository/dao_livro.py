@@ -17,9 +17,31 @@ class DAOEntity:
             connection.close()
 
     def find_all(self):
-        # Consultar todas as entidades
-        pass
+        connection = get_connection()
+        
+        try:
+            
+            cursor = connection.execute("SELECT * FROM livros")
+            registros = cursor.fetchall()
+            
+            
+            livros = []
+        
+        for registro in registros:
+            Book = livro(
+                id=registro[0],
+                titulo=registro[1],
+                autor=registro[2],
+                lido=bool(registro[3])
+            )
 
+            livros.append(livro)
+
+        return livros
+
+    finally:
+        connection.close()
+        
     def find_by_id(self, task_id):
         # Consultar pelo ID
         pass
