@@ -9,6 +9,7 @@ class FilmeUI:
             print("1 - Cadastrar filme")
             print("2 - Listar filmes")
             print("3 - Consultar filme por ID")
+            print("4 - Atualizar filme")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ").strip()
@@ -20,6 +21,8 @@ class FilmeUI:
                     self._listar()
                 elif opcao == "3":
                     self._consultar_por_id()
+                elif opcao == "4":
+                    self._atualizar()
                 elif opcao == "0":
                     print("Saindo do gerenciador de filmes...")
                     break
@@ -64,3 +67,12 @@ class FilmeUI:
         print(f"Título: {filme.titulo}")
         print(f"Descrição: {filme.descricao if filme.descricao else '(Sem descrição)'}")
         print(f"Situação: {status}")
+
+    def _atualizar(self):
+        filme_id = self._ler_id()
+        filme_atual = self.services.get(filme_id)
+        print(f"Editando: '{filme_atual.titulo}'")
+        novo_titulo = input("Novo título: ")
+        nova_descricao = input("Nova descrição (opcional): ")
+        filme_atualizado = self.services.update(filme_id, novo_titulo, nova_descricao)
+        print(f"Filme '{filme_atualizado.titulo}' (ID: {filme_atualizado.id}) atualizado com sucesso!")

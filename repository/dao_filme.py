@@ -1,31 +1,30 @@
-from database.connection import get_connection
 from entities.filme import Filme
 
-class DAOFilme:
+class FilmeService:
 
-    def create(self, filme):
-        connection = get_connection()
-        try:
-            cursor = connection.cursor()
-            cursor.execute(
-                "INSERT INTO filmes (titulo, descricao, assistido) VALUES (?, ?, ?)",
-                (filme.titulo, filme.descricao, int(filme.assistido))
-            )
-            connection.commit()
-            filme.id = cursor.lastrowid
-            return filme
-        finally:
-            connection.close()
+    def __init__(self, repository):
+        self.repository = repository
 
-    def find_all(self):
-        connection = get_connection()
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT id, titulo, descricao, assistido FROM filmes")
-            rows = cursor.fetchall()
-            return [
-                Filme(id=row[0], titulo=row[1], descricao=row[2], assistido=bool(row[3]))
-                for row in rows
-            ]
-        finally:
-            connection.close()
+    def create(self, titulo, descricao=""):
+        if not titulo or not titulo.strip():
+            raise ValueError("O título do filme é obrigatório e não pode estar em branco.")
+        novo_filme = Filme(titulo=titulo.strip(), descricao=(descricao or "").strip(), assistido=False)
+        return self.repository.create(novo_filme)
+
+    def list(self):
+        return self.repository.find_all()
+
+    def get(self, filme_id):
+        filme = self.repository.find_by_id(filme_id)
+        if not filme:
+            raise ValueError(f"Filme com ID {filme_id} não encontrado.")
+        return filme
+
+    def update(self, filme_id, titulo, descricao=""):
+        filme_existente = self.get(filme_id)
+        if not titulo or not titulo.strip():
+            raise ValueError("O título do filme é obrigatório e não pode estar em branco.")
+        filme_existente.titulo = titulo.strip()
+        filme_existente.descricao = (descricao or "").strip()
+        self.repository.update(filme_existente)
+        return filme_existente
