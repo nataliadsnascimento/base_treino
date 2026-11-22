@@ -68,10 +68,21 @@ class DAOEntity:
     finally:
         connection.close()
 
-    def update(self, task):
-        # Atualizar
-        pass
+    def update(self, livro):
+    connection = get_connection()
 
+    try:
+        connection.execute("""
+            UPDATE livros
+            SET titulo = ?, autor = ?
+            WHERE id = ?
+        """, (livro.titulo, livro.autor, livro.id))
+
+        connection.commit()
+
+    finally:
+        connection.close()
+        
     def delete(self, task_id):
         # Excluir
         pass
