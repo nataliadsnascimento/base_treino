@@ -23,9 +23,9 @@ class Services:
         return self.repository.find_all()
 
     def get(self, task_id):
-        livro = self.repository.find_by_id(livro_id)
+        item = self.repository.find_by_id(livro_id)
 
-        if livro is None:
+        if item is None:
             raise ValueError("Livro não encontrado!")
 
         return livro
