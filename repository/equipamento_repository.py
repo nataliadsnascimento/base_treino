@@ -153,3 +153,22 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+            
+    def undo_sale(self, equipamento_id):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                UPDATE equipamentos
+                SET vendido = 0
+                WHERE id = ? AND vendido = 1
+            """, (equipamento_id,))
+
+            connection.commit()
+
+            return cursor.rowcount > 0
+
+        finally:
+            connection.close()
