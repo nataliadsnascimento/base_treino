@@ -20,7 +20,7 @@ class Services:
         return novo_livro
     
     def list(self):
-        pass
+        return self.repository.find_all()
 
     def get(self, task_id):
         pass
