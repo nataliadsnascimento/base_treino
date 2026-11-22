@@ -39,3 +39,19 @@ class EquipamentoService:
             raise ValueError("Equipamento não encontrado.")
 
         return equipamento
+    
+    def update(self, equipamento_id, nome, descricao, patrimonio):
+
+        equipamento = self.get(equipamento_id)
+
+        if not nome.strip():
+            raise ValueError("O nome do equipamento é obrigatório.")
+
+        equipamento.nome = nome.strip()
+        equipamento.descricao = descricao
+        equipamento.patrimonio = patrimonio
+
+        if not self.repository.update(equipamento):
+            raise ValueError("Não foi possível atualizar o equipamento.")
+
+        return equipamento
