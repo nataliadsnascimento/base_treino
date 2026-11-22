@@ -1,4 +1,4 @@
-class Terminal:
+class LivroUi:
     
     def __init__(self, service):
         self.service = service
@@ -67,15 +67,25 @@ class Terminal:
         livro_id = int(input("Digite o ID: "))
         livro = self.service.get(livro_id)
 
+        status = "Lido" if livro.lido else "Não lido"
+        print(f"\nID: {livro.id}")
         print(f"Título: {livro.titulo}")
         print(f"Autor: {livro.autor}")
+        print(f"Status: {status}")
 
     def atualizar(self):
         livro_id = int(input("Digite o ID do livro: "))
         titulo = input("Novo título: ")
         autor = input("Novo autor: ")
-
-        self.service.update(livro_id, titulo, autor)
+        lido_in = input("Já foi lido? (s/n ou Enter para manter): ").strip().lower()
+        
+        lido = None
+        if lido_in == "s":
+            lido = True
+        elif lido_in == "n":
+            lido = False
+        
+        self.service.update(livro_id, titulo, autor, lido)
 
         print("Livro atualizado com sucesso!")
 
