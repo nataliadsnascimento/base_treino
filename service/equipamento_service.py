@@ -64,3 +64,5 @@ class EquipamentoService:
             raise ValueError("Não foi possível excluir o equipamento.")
 
         return True
+    
+    
