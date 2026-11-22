@@ -59,7 +59,7 @@ def install():
                 ('A hora da estrela', 'Clarice Lispector', 1),
                 ('Dom Casmurro', 'Machado de Assis', 0)
         """)
-                
+                    
         connection.commit()
         print("Banco de dados instalado com sucesso!")
     finally:

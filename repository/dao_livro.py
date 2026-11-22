@@ -1,11 +1,11 @@
 from database.connection import get_connection
 from entities.livro import livro
 
-class DAOEntity:
+class DAOLivro:
 
     def create(self, livro_obj):
         connection = get_connection()
-        
+
         try:
             cursor = connection.execute("""
                 INSERT INTO livros (titulo, autor, lido)
@@ -14,18 +14,18 @@ class DAOEntity:
             
             connection.commit()
             return cursor.lastrowid
+
         finally:
             connection.close()
 
     def find_all(self):
         connection = get_connection()
-        
+
         try:
             
             cursor = connection.execute("SELECT id, titulo, autor, lido FROM livros")
             registros = cursor.fetchall()
-            
-            
+
             livros = []
         
             for registro in registros:
@@ -37,11 +37,11 @@ class DAOEntity:
                 )
 
                 livros.append(item)
-
             return livros
+
         finally:
             connection.close()
-            
+
     def find_by_id(self, livro_id):
         connection = get_connection()
 
@@ -62,9 +62,7 @@ class DAOEntity:
                 autor=registro[2],
                 lido=bool(registro[3])
             )
-
             return item
-
         finally:
             connection.close()
 
@@ -82,7 +80,7 @@ class DAOEntity:
 
         finally:
             connection.close()
-        
+
     def delete(self, livro_id):
         connection = get_connection()
 
