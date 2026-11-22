@@ -11,6 +11,7 @@ class EquipamentoMenu:
             print("2 - Listar equipamentos")
             print("3 - Buscar equipamento por ID")
             print("4 - Atualizar equipamento")
+            print("5 - Excluir equipamento")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -26,6 +27,9 @@ class EquipamentoMenu:
 
             elif opcao == "4":
                 self.update()
+
+            elif opcao == "5":
+                self.delete()
 
             elif opcao == "0":
                 print("Encerrando menu...")
@@ -135,6 +139,39 @@ class EquipamentoMenu:
             )
 
             print("Equipamento atualizado com sucesso!")
+
+        except ValueError as erro:
+            print(f"Erro: {erro}")
+
+    def delete(self):
+
+        print("\n===== EXCLUSÃO DE EQUIPAMENTO =====")
+
+        try:
+            equipamento_id = int(input("Informe o ID: "))
+
+        except ValueError:
+            print("Erro: Informe um ID válido.")
+            return
+
+        try:
+            equipamento = self.services.get(equipamento_id)
+
+            print(f"ID: {equipamento.id}")
+            print(f"Nome: {equipamento.nome}")
+
+            confirmacao = input(
+                "Confirma a exclusão? (s/n): "
+            ).strip().lower()
+
+            if confirmacao == "s":
+
+                self.services.delete(equipamento_id)
+
+                print("Equipamento excluído com sucesso!")
+
+            else:
+                print("Exclusão cancelada.")
 
         except ValueError as erro:
             print(f"Erro: {erro}")
