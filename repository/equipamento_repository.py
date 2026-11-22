@@ -116,3 +116,21 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+            
+    def delete(self, equipamento_id):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                DELETE FROM equipamentos
+                WHERE id = ?
+            """, (equipamento_id,))
+
+            connection.commit()
+
+            return cursor.rowcount > 0
+
+        finally:
+            connection.close()
