@@ -37,6 +37,14 @@ class FilmeService:
         filme.assistido = True
         return filme
 
+    def reabrir(self, filme_id):
+        filme = self.get(filme_id)
+        if not filme.assistido:
+            raise ValueError(f"O filme '{filme.titulo}' já está marcado como pendente.")
+        self.repository.update_status(filme_id, False)
+        filme.assistido = False
+        return filme
+
     def delete(self, filme_id):
         self.get(filme_id)
         return self.repository.delete(filme_id)
