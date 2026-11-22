@@ -3,7 +3,7 @@ from database.connection import get_connection
 from entities.livro import livro
 
 
-class DAOEntity:
+class DAOLivro:
 
     def create(self, livro):
         connection = get_connection()

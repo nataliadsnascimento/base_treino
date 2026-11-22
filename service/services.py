@@ -1,4 +1,4 @@
-from repository.dao_entity import DAOEntity
+from repository.dao_livro import DAOLivro
 from entities.livro import livro
 
 class Services:
