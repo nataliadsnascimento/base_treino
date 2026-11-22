@@ -65,4 +65,15 @@ class EquipamentoService:
 
         return True
     
-    
+             
+    def sell(self, equipamento_id):
+
+        equipamento = self.get(equipamento_id)
+
+        if equipamento.vendido:
+            raise ValueError("Equipamento já está vendido.")
+
+        if not self.repository.sell(equipamento_id):
+            raise ValueError("Não foi possível realizar a venda.")
+
+        return True
