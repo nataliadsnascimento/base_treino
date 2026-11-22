@@ -42,9 +42,31 @@ class DAOEntity:
     finally:
         connection.close()
         
-    def find_by_id(self, task_id):
-        # Consultar pelo ID
-        pass
+    def find_by_id(self, livro_id):
+    connection = get_connection()
+
+    try:
+        cursor = connection.execute(
+            "SELECT * FROM livros WHERE id = ?",
+            (livro_id,)
+        )
+
+        registro = cursor.fetchone()
+
+        if registro is None:
+            return None
+
+        livro = Livro(
+            id=registro[0],
+            titulo=registro[1],
+            autor=registro[2],
+            lido=bool(registro[3])
+        )
+
+        return livro
+
+    finally:
+        connection.close()
 
     def update(self, task):
         # Atualizar
