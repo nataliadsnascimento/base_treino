@@ -77,3 +77,15 @@ class EquipamentoService:
             raise ValueError("Não foi possível realizar a venda.")
 
         return True
+    
+    def undo_sale(self, equipamento_id):
+
+        equipamento = self.get(equipamento_id)
+
+        if not equipamento.vendido:
+            raise ValueError("Equipamento não está vendido.")
+
+        if not self.repository.undo_sale(equipamento_id):
+            raise ValueError("Não foi possível desfazer a venda.")
+
+        return True
