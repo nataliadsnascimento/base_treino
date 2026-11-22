@@ -4,9 +4,9 @@ from interface.equipamento_menu import EquipamentoMenu
 from service.equipamento_service import EquipamentoService
 from repository.equipamento_repository import EquipamentoRepository
 
-from interface.gui import UI
+from interface.livro_ui import LivroUi
 from service.services import Services
-from repository.dao_entity import DAOEntity
+from repository.dao_livro import DAOLivro
 
 def main():
 
@@ -16,9 +16,9 @@ def main():
     equipamento_service = EquipamentoService(equipamento_repository)
     equipamento_menu = EquipamentoMenu(equipamento_service)
     
-    livro_repository = DAOEntity()
+    livro_repository = DAOLivro()
     livro_service = Services(livro_repository)
-    livro_menu = UI(livro_service)
+    livro_menu = LivroUI(livro_service)
 
     while True:
 
@@ -33,7 +33,7 @@ def main():
             equipamento_menu.show_principal_menu()
         
         elif opcao == "2":
-            livro_menu.show_principal_menu()
+            livro_menu.menu()
 
         elif opcao == "0":
             print("Encerrando sistema...")
