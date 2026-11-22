@@ -55,3 +55,12 @@ class EquipamentoService:
             raise ValueError("Não foi possível atualizar o equipamento.")
 
         return equipamento
+    
+    def delete(self, equipamento_id):
+
+        self.get(equipamento_id)
+
+        if not self.repository.delete(equipamento_id):
+            raise ValueError("Não foi possível excluir o equipamento.")
+
+        return True
