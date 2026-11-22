@@ -29,6 +29,14 @@ class FilmeService:
         self.repository.update(filme_existente)
         return filme_existente
 
+    def concluir(self, filme_id):
+        filme = self.get(filme_id)
+        if filme.assistido:
+            raise ValueError(f"O filme '{filme.titulo}' já está marcado como assistido.")
+        self.repository.update_status(filme_id, True)
+        filme.assistido = True
+        return filme
+
     def delete(self, filme_id):
         self.get(filme_id)
         return self.repository.delete(filme_id)

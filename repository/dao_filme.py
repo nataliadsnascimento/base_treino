@@ -58,6 +58,19 @@ class DAOFilme:
         finally:
             connection.close()
 
+    def update_status(self, filme_id, assistido):
+        connection = get_connection()
+        try:
+            cursor = connection.cursor()
+            cursor.execute(
+                "UPDATE filmes SET assistido = ? WHERE id = ?",
+                (int(assistido), filme_id)
+            )
+            connection.commit()
+            return cursor.rowcount > 0
+        finally:
+            connection.close()
+
     def delete(self, filme_id):
         connection = get_connection()
         try:
