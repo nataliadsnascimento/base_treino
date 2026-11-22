@@ -5,7 +5,7 @@ def install():
 
     try:
         connection.execute("""
-            CREATE TABLE IF NOT EXISTIS livros(
+            CREATE TABLE IF NOT EXISTS livros(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo TEXT NOT NULL,
             autor TEXT,
@@ -16,16 +16,16 @@ def install():
         cursor = connection.execute("SELECT COUNT(*) FROM livros")
         total = cursor.fetchone()[0]
         
-        if 	total == 0:
+        if total == 0:
             connection.execute("""
-            INSERT INTO livros (titulo, autor, livro)
+            INSERT INTO livros (titulo, autor, lido)
             VALUES
-                ('Vidas secas', 'Graciliamo Ramos', 0),
+                ('Vidas secas', 'Graciliano Ramos', 0),
                 ('A hora da estrela', 'Clarice Lispector', 1),
-                ('Dom Casmurro', 'Machado de Assis', 2)
+                ('Dom Casmurro', 'Machado de Assis', 0)
 
         """)
-                
+                    
         connection.commit()
 
     finally:
