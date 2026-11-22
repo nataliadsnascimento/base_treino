@@ -29,3 +29,34 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+
+    def list(self):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                SELECT id, nome, descricao, patrimonio, vendido
+                FROM equipamentos
+            """)
+
+            registros = cursor.fetchall()
+
+            equipamentos = []
+
+            for registro in registros:
+                equipamento = Equipamento(
+                    id=registro[0],
+                    nome=registro[1],
+                    descricao=registro[2],
+                    patrimonio=registro[3],
+                    vendido=bool(registro[4])
+                )
+
+                equipamentos.append(equipamento)
+
+            return equipamentos
+
+        finally:
+            connection.close()
