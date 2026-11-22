@@ -24,3 +24,7 @@ class EquipamentoService:
 
         # Solicitar persistência
         return self.repository.create(equipamento)
+    
+    def list(self):
+        return self.repository.list()
+    
