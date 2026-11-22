@@ -13,6 +13,7 @@ class EquipamentoMenu:
             print("4 - Atualizar equipamento")
             print("5 - Excluir equipamento")
             print("6 - Marcar equipamento como vendido")
+            print("7 - Desfazer venda de equipamento")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -34,6 +35,9 @@ class EquipamentoMenu:
 
             elif opcao == "6":
                 self.sell()
+
+            elif opcao == "7":
+                self.undo_sale()
 
             elif opcao == "0":
                 print("Encerrando menu...")
@@ -213,6 +217,44 @@ class EquipamentoMenu:
 
             else:
                 print("Venda cancelada.")
+
+        except ValueError as erro:
+            print(f"Erro: {erro}")
+
+    def undo_sale(self):
+
+        print("\n===== DESFAZER VENDA DE EQUIPAMENTO =====")
+
+        try:
+            equipamento_id = int(input("Informe o ID: "))
+
+        except ValueError:
+            print("Erro: Informe um ID válido.")
+            return
+
+        try:
+            equipamento = self.services.get(equipamento_id)
+
+            if not equipamento.vendido:
+                raise ValueError("Equipamento não está vendido.")
+
+            print(f"ID: {equipamento.id}")
+            print(f"Nome: {equipamento.nome}")
+            print(f"Patrimônio: {equipamento.patrimonio}")
+
+            confirmacao = input(
+                "Confirma desfazer a venda? (s/n): "
+            ).strip().lower()
+
+            if confirmacao == "s":
+
+                self.services.undo_sale(equipamento_id)
+
+                print("Venda desfeita com sucesso!")
+                print("Equipamento disponível novamente.")
+
+            else:
+                print("Operação cancelada.")
 
         except ValueError as erro:
             print(f"Erro: {erro}")
