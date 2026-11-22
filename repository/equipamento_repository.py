@@ -134,3 +134,22 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+            
+    def sell(self, equipamento_id):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                UPDATE equipamentos
+                SET vendido = 1
+                WHERE id = ? AND vendido = 0
+            """, (equipamento_id,))
+
+            connection.commit()
+
+            return cursor.rowcount > 0
+
+        finally:
+            connection.close()
