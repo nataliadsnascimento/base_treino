@@ -13,3 +13,9 @@ class FilmeService:
 
     def list(self):
         return self.repository.find_all()
+
+    def get(self, filme_id):
+        filme = self.repository.find_by_id(filme_id)
+        if not filme:
+            raise ValueError(f"Filme com ID {filme_id} não encontrado.")
+        return filme

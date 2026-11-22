@@ -8,6 +8,7 @@ class FilmeUI:
             print("\n=== GERENCIADOR DE FILMES ===")
             print("1 - Cadastrar filme")
             print("2 - Listar filmes")
+            print("3 - Consultar filme por ID")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ").strip()
@@ -17,6 +18,8 @@ class FilmeUI:
                     self._cadastrar()
                 elif opcao == "2":
                     self._listar()
+                elif opcao == "3":
+                    self._consultar_por_id()
                 elif opcao == "0":
                     print("Saindo do gerenciador de filmes...")
                     break
@@ -24,6 +27,12 @@ class FilmeUI:
                     print("Opção inválida. Tente novamente.")
             except ValueError as e:
                 print(f"Erro: {e}")
+
+    def _ler_id(self):
+        valor = input("Informe o ID do filme: ").strip()
+        if not valor.isdigit():
+            raise ValueError("O ID deve ser um número inteiro válido.")
+        return int(valor)
 
     def _formatar_status(self, assistido):
         return "Assistido" if assistido else "Pendente"
@@ -45,3 +54,13 @@ class FilmeUI:
             print(f"[{filme.id}] {filme.titulo} - {status}")
             if filme.descricao:
                 print(f"    Descrição: {filme.descricao}")
+
+    def _consultar_por_id(self):
+        filme_id = self._ler_id()
+        filme = self.services.get(filme_id)
+        status = self._formatar_status(filme.assistido)
+        print("\n--- Detalhes do Filme ---")
+        print(f"ID: {filme.id}")
+        print(f"Título: {filme.titulo}")
+        print(f"Descrição: {filme.descricao if filme.descricao else '(Sem descrição)'}")
+        print(f"Situação: {status}")
