@@ -42,7 +42,7 @@ class Services:
         item.titulo = titulo.strip()
         item.autor = autor.strip() if autor and autor.strip() else None
 
-        self.repository.update(livro)
+        self.repository.update(item)
 
         return item
     
