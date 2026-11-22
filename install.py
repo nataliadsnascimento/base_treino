@@ -5,7 +5,7 @@ def install():
     connection = get_connection()
     try:
         cursor = connection.cursor()
-
+        
         # Tabela equipamentos (entidade do colega)
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS equipamentos (

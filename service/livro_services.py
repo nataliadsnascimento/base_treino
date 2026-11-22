@@ -55,4 +55,3 @@ class Services:
             raise ValueError("Livro não encontrado!")
 
         self.repository.delete(livro_id)
-        
