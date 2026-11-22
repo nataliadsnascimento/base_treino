@@ -10,3 +10,6 @@ class FilmeService:
             raise ValueError("O título do filme é obrigatório e não pode estar em branco.")
         novo_filme = Filme(titulo=titulo.strip(), descricao=(descricao or "").strip(), assistido=False)
         return self.repository.create(novo_filme)
+
+    def list(self):
+        return self.repository.find_all()
