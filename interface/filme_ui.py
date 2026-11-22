@@ -10,6 +10,7 @@ class FilmeUI:
             print("2 - Listar filmes")
             print("3 - Consultar filme por ID")
             print("4 - Atualizar filme")
+            print("5 - Excluir filme")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ").strip()
@@ -23,6 +24,8 @@ class FilmeUI:
                     self._consultar_por_id()
                 elif opcao == "4":
                     self._atualizar()
+                elif opcao == "5":
+                    self._excluir()
                 elif opcao == "0":
                     print("Saindo do gerenciador de filmes...")
                     break
@@ -76,3 +79,13 @@ class FilmeUI:
         nova_descricao = input("Nova descrição (opcional): ")
         filme_atualizado = self.services.update(filme_id, novo_titulo, nova_descricao)
         print(f"Filme '{filme_atualizado.titulo}' (ID: {filme_atualizado.id}) atualizado com sucesso!")
+
+    def _excluir(self):
+        filme_id = self._ler_id()
+        filme = self.services.get(filme_id)
+        confirmacao = input(f"Tem certeza que deseja excluir '{filme.titulo}'? (s/n): ").strip().lower()
+        if confirmacao == "s":
+            self.services.delete(filme_id)
+            print(f"Filme ID {filme_id} excluído com sucesso!")
+        else:
+            print("Exclusão cancelada.")
