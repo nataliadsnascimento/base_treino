@@ -90,3 +90,29 @@ class EquipamentoRepository:
 
         finally:
             connection.close()
+            
+    def update(self, equipamento):
+        connection = get_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                UPDATE equipamentos
+                SET nome = ?,
+                    descricao = ?,
+                    patrimonio = ?
+                WHERE id = ?
+            """, (
+                equipamento.nome,
+                equipamento.descricao,
+                equipamento.patrimonio,
+                equipamento.id
+            ))
+
+            connection.commit()
+
+            return cursor.rowcount > 0
+
+        finally:
+            connection.close()
