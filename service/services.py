@@ -16,13 +16,17 @@ class Services:
             lido=False
         )
 
-        novo_livro.id = self.repository.create(novo_livro)
+        id_gerado = self.repository.create(novo_livro)
+
+        print("ID recebido pelo Service:", id_gerado)
+
+        novo_livro.id = id_gerado
         return novo_livro
     
     def list(self):
         return self.repository.find_all()
 
-    def get(self, task_id):
+    def get(self, livro_id):
         livro = self.repository.find_by_id(livro_id)
 
         if livro is None:
