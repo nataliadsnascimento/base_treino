@@ -1,5 +1,5 @@
 from database.connection import get_connection
-from entity.livro import livro
+from entities.livro import livro
 
 class DAOEntity:
 
@@ -7,12 +7,13 @@ class DAOEntity:
         connection = get_connection()
         
         try:
-            connection.execute("""
+            cursor = connection.execute("""
                 INSERT INTO livros (titulo, autor, lido)
                 VALUES (?, ?, ?)
-            """,(livro.titulo, livro.autor, livro.lido))
+            """,(livro_obj.titulo, livro_obj.autor, livro_obj.lido))
             
-            connection.commit()            
+            connection.commit()
+            return cursor.lastrowid
         finally:
             connection.close()
 
@@ -21,33 +22,32 @@ class DAOEntity:
         
         try:
             
-            cursor = connection.execute("SELECT * FROM livros")
+            cursor = connection.execute("SELECT id, titulo, autor, lido FROM livros")
             registros = cursor.fetchall()
             
             
             livros = []
         
-        for registro in registros:
-            Book = livro(
-                id=registro[0],
-                titulo=registro[1],
-                autor=registro[2],
-                lido=bool(registro[3])
-            )
+            for registro in registros:
+                item = livro(
+                    id=registro[0],
+                    titulo=registro[1],
+                    autor=registro[2],
+                    lido=bool(registro[3])
+                )
 
-            livros.append(livro)
+                livros.append(item)
 
-        return livros
-
-    finally:
-        connection.close()
-        
+            return livros
+        finally:
+            connection.close()
+            
     def find_by_id(self, livro_id):
     connection = get_connection()
 
     try:
         cursor = connection.execute(
-            "SELECT * FROM livros WHERE id = ?",
+            "SELECT id, titulo, autor, lido FROM livros WHERE id = ?",
             (livro_id,)
         )
 
@@ -69,30 +69,30 @@ class DAOEntity:
         connection.close()
 
     def update(self, livro_obj):
-    connection = get_connection()
+        connection = get_connection()
 
-    try:
-        connection.execute("""
-            UPDATE livros
-            SET titulo = ?, autor = ?
-            WHERE id = ?
-        """, (livro_obj.titulo, livro_obj.autor, livro_obj.id))
+        try:
+            connection.execute("""
+                UPDATE livros
+                SET titulo = ?, autor = ?, lido = ?
+                WHERE id = ?
+            """, (livro_obj.titulo, livro_obj.autor, livro_obj.id))
 
-        connection.commit()
+            connection.commit()
 
-    finally:
-        connection.close()
+        finally:
+            connection.close()
         
     def delete(self, livro_id):
-    connection = get_connection()
+        connection = get_connection()
 
-    try:
-        connection.execute(
-            "DELETE FROM livros WHERE id = ?",
-            (livro_id,)
-        )
+        try:
+            connection.execute(
+                "DELETE FROM livros WHERE id = ?",
+                (livro_id,)
+            )
 
-        connection.commit()
+            connection.commit()
 
-    finally:
-        connection.close()
+        finally:
+            connection.close()
