@@ -46,5 +46,10 @@ class Services:
 
         return livro
     
-    def delete(self, task_id):
-        pass
+    def delete(self, livro_id):
+        livro = self.repository.find_by_id(livro_id)
+
+        if livro is None:
+            raise ValueError("Livro não encontrado!")
+
+        self.repository.delete(livro_id)
