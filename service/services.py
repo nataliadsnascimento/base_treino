@@ -30,7 +30,7 @@ class Services:
 
         return item
     
-    def update(self, livro_id, titulo, autor=None):
+    def update(self, livro_id, titulo, autor=None, lido=None):
         item = self.repository.find_by_id(livro_id)
 
         if item is None:
