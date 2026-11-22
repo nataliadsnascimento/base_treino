@@ -30,8 +30,21 @@ class Services:
 
         return item
     
-    def update(self, task_id, title, description):
-        pass
+    def update(self, livro_id, titulo, autor=None, lido=None):
+        item = self.repository.find_by_id(livro_id)
 
+        if item is None:
+            raise ValueError("Livro não encontrado!")
+
+        if not titulo or not titulo.strip():
+            raise ValueError("O título do livro é obrigatório!")
+
+        item.titulo = titulo.strip()
+        item.autor = autor.strip() if autor and autor.strip() else None
+
+        self.repository.update(item)
+
+        return item
+    
     def delete(self, task_id):
         pass
