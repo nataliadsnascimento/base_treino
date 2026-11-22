@@ -41,10 +41,18 @@ class Services:
 
         item.titulo = titulo.strip()
         item.autor = autor.strip() if autor and autor.strip() else None
-
+        if lido is not None:
+            item.lido = bool(lido)
+        
         self.repository.update(item)
 
         return item
     
-    def delete(self, task_id):
-        pass
+    def delete(self, livro_id):
+        item = self.repository.find_by_id(livro_id)
+
+        if item is None:
+            raise ValueError("Livro não encontrado!")
+
+        self.repository.delete(livro_id)
+        
