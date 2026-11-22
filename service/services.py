@@ -22,13 +22,13 @@ class Services:
     def list(self):
         return self.repository.find_all()
 
-    def get(self, task_id):
+    def get(self, livro_id):
         item = self.repository.find_by_id(livro_id)
 
         if item is None:
             raise ValueError("Livro não encontrado!")
 
-        return livro
+        return item
     
     def update(self, task_id, title, description):
         pass
