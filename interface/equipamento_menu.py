@@ -10,6 +10,7 @@ class EquipamentoMenu:
             print("1 - Cadastrar equipamento")
             print("2 - Listar equipamentos")
             print("3 - Buscar equipamento por ID")
+            print("4 - Atualizar equipamento")
             print("0 - Sair")
 
             opcao = input("Escolha uma opção: ")
@@ -22,6 +23,9 @@ class EquipamentoMenu:
 
             elif opcao == "3":
                 self.get()
+
+            elif opcao == "4":
+                self.update()
 
             elif opcao == "0":
                 print("Encerrando menu...")
@@ -94,6 +98,43 @@ class EquipamentoMenu:
             print(f"Patrimônio: {equipamento.patrimonio}")
             print(f"Status: {status}")
             print("-" * 35)
+
+        except ValueError as erro:
+            print(f"Erro: {erro}")
+
+    def update(self):
+
+        print("\n===== ATUALIZAÇÃO DE EQUIPAMENTO =====")
+
+        try:
+            equipamento_id = int(input("Informe o ID: "))
+
+        except ValueError:
+            print("Erro: Informe um ID válido.")
+            return
+
+        try:
+            equipamento = self.services.get(equipamento_id)
+
+            print("\nDados atuais:")
+            print(f"Nome: {equipamento.nome}")
+            print(f"Descrição: {equipamento.descricao}")
+            print(f"Patrimônio: {equipamento.patrimonio}")
+
+            print("\nInforme os novos dados:")
+
+            nome = input("Novo nome: ")
+            descricao = input("Nova descrição: ")
+            patrimonio = input("Novo patrimônio: ")
+
+            self.services.update(
+                equipamento_id,
+                nome,
+                descricao,
+                patrimonio
+            )
+
+            print("Equipamento atualizado com sucesso!")
 
         except ValueError as erro:
             print(f"Erro: {erro}")
