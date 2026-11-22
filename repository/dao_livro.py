@@ -3,7 +3,7 @@ from entity.livro import livro
 
 class DAOEntity:
 
-    def create(self, livro):
+    def create(self, livro_obj):
         connection = get_connection()
         
         try:
@@ -56,19 +56,19 @@ class DAOEntity:
         if registro is None:
             return None
 
-        livro = Livro(
+        item = livro(
             id=registro[0],
             titulo=registro[1],
             autor=registro[2],
             lido=bool(registro[3])
         )
 
-        return livro
+        return item
 
     finally:
         connection.close()
 
-    def update(self, livro):
+    def update(self, livro_obj):
     connection = get_connection()
 
     try:
@@ -76,7 +76,7 @@ class DAOEntity:
             UPDATE livros
             SET titulo = ?, autor = ?
             WHERE id = ?
-        """, (livro.titulo, livro.autor, livro.id))
+        """, (livro_obj.titulo, livro_obj.autor, livro_obj.id))
 
         connection.commit()
 
